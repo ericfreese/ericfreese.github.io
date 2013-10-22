@@ -6,10 +6,15 @@
     <title>{{ page.title }}</title>
     <meta name="viewport" content="width=device-width">
 
-    <link rel="stylesheet" href="/css/syntax.css">
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/main.css">
+    
+    {% for css in page.css %}
+      <link rel="stylesheet" href="{{ css }}">
+    {% endfor %}
 
-    <link rel="author" href="/humans.txt" />
+    {% for js in page.js %}
+      <script src="{{ js }}"></script>
+    {% endfor %}
   </head>
   <body>
     <nav>
@@ -22,18 +27,12 @@
       </div>
     </nav>
 
-    <div class="boa-constrictor">
-      <div class="page-stack_container">
-        <div class="page-stack">
+    {{ content }}
 
-          {{ content }}
-
-        </div>
-      </div>
-
-      <footer>
+    <footer>
+      <div class="boa-constrictor">
         Site created by Eric Freese with the help of <a href="http://jekyllrb.com/" target="_blank">Jekyll</a>, <a href="http://sass-lang.com/" target="_blank">Sass</a>, <a href="http://compass-style.org/" target="_blank">Compass</a>, and <a href="http://www.google.com/fonts" target="_blank">Google Fonts</a>.
-      </footer>
-    </div>
+      </div>
+    </footer>
   </body>
 </html>
