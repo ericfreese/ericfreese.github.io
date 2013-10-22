@@ -1,0 +1,8 @@
+name: Eric Freese
+markdown: redcarpet
+pygments: true
+exclude: 
+  - Gemfile
+  - Gemfile.lock
+  - config.rb
+  - README.md

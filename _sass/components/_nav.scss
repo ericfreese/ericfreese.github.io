@@ -1,0 +1,35 @@
+nav {
+
+  .boa-constrictor {
+    padding: 0 5em;
+  }
+
+  h1 {
+    line-height: 6rem;
+    margin: 0;
+
+    a {
+      color: inherit;
+    }
+  }
+
+  .navigation {
+    list-style-type: none;
+    float: right;
+    margin: 0;
+    padding: 0;
+
+    li {
+      float: left;
+      line-height: 6rem;
+
+      a {
+        color: inherit;
+      }
+
+      & + li {
+        margin-left: 1em;
+      }
+    }
+  }
+}

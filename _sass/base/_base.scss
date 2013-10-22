@@ -1,0 +1,15 @@
+@import "vendor/normalize";
+
+* {
+  @include box-sizing(border-box);
+}
+
+body {
+  background: #edeae3;
+  background-image: url("/img/square_bg.png");
+  @include background-image-retina(
+    $image: "/img/square_bg@2X.png",
+    $width: 252px,
+    $height: 230px
+  );
+}

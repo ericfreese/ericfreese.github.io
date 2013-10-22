@@ -1,0 +1,35 @@
+.page-stack_container {
+  position: relative;
+  z-index: 1;
+
+  padding: 0 1em 1em 1em;
+
+  .page-stack {
+    position: relative;
+
+    padding: 4em;
+
+    &, &:before, &:after {
+      background: rgba(#f6f6f6, 0.8);
+      @include box-shadow(0 1px 4px rgba(0, 0, 0, 0.7), 0 0 140px rgba(0, 0, 0, 0.1) inset);
+    }
+
+    &:before, &:after {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    &:before {
+      @include transform(rotate(1.4deg));
+    }
+
+    &:after {
+      @include transform(rotate(-1deg));
+    }
+  }
+}
