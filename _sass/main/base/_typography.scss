@@ -56,6 +56,10 @@ p {
   margin-bottom: $paragraph-margin-bottom;
 }
 
+ul, ol {
+  line-height: $paragraph-line-height;
+}
+
 .lead {
   font-size: 1.1em;
 }
