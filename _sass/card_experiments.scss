@@ -1,43 +1,68 @@
 @import "compass";
+@import "compass/css3/user-interface";
 
-$card-width: 75px;
-$card-height: 100px;
+$card-width: 9%;
+$card-height: 14%;
 
-.cards-container {
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#card-game {
   position: relative;
   margin: 0 auto;
   width: 100%;
   height: 100%;
-  min-height: 220px;
+  min-height: 600px;
+  @include user-select(none);
+  font-size: 16px;
+}
+
+.card-stack, .card {
+  cursor: pointer;
 }
 
 .card-stack {
   position: absolute;
   width: $card-width;
   height: $card-height;
+  @include border-radius(5px);
+  // @include box-shadow(0 2px 5px rgba(#222, 0.8) inset);
+  background-color: #edeae3;
+  border: 5px solid rgba(darken(#edeae3, 10%), 0.4);
 }
 
 .card {
-  position: relative;
-  width: $card-width;
-  height: $card-height;
-  padding: 4px;
+  position: absolute;
+  padding: 2px 5px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  @include box-shadow(
+    0 0 2px #222
+    // 0 0 40px rgba(#222, 0.3) inset
+  );
+  @include border-radius(5px);
 
   background: #f6f6f6;
-  @include box-shadow(0 0 2px #222);
-  @include border-radius(5px);
-  
-  @include transform-origin(0, 100%, 0);
-  @include transition(transform 0.2s ease-in-out);
   
   text-transform: uppercase;
 
-  .card-stack &:nth-child(n+2) {
-    margin-top: -80%
-  }
+  &.flipped {
+    background-color: #D6D7E7;
+    @include background-image(
+      radial-gradient(closest-side, transparent 98%, rgba(0,0,0,.15) 99%),
+      radial-gradient(closest-side, transparent 98%, rgba(0,0,0,.15) 99%)
+    );
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
 
-  &[data-rank="ace"]:before {
-    content: 'a';
+    &:before, &:after {
+      display: none;
+    }
   }
 
   &[data-rank="king"]:before {
@@ -64,6 +89,34 @@ $card-height: 100px;
     content: '8';
   }
 
+  &[data-rank="7"]:before {
+    content: '7';
+  }
+
+  &[data-rank="6"]:before {
+    content: '6';
+  }
+
+  &[data-rank="5"]:before {
+    content: '5';
+  }
+
+  &[data-rank="4"]:before {
+    content: '4';
+  }
+
+  &[data-rank="3"]:before {
+    content: '3';
+  }
+
+  &[data-rank="2"]:before {
+    content: '2';
+  }
+
+  &[data-rank="ace"]:before {
+    content: 'a';
+  }
+
   &[data-suit="hearts"],
   &[data-suit="diamonds"] {
     color: #900;
@@ -88,9 +141,5 @@ $card-height: 100px;
 
   &[data-suit="clubs"]:after {
     content: ' ♣';
-  }
-
-  &:hover {
-    @include transform(rotate(5deg));
   }
 }

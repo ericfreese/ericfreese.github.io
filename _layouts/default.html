@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="/css/main.css">
     
     {% for css in page.css %}
-      <link rel="stylesheet" href="{{ css }}">
+      {{ css }}
     {% endfor %}
 
     {% for js in page.js %}
-      <script src="{{ js }}"></script>
+      {{ js }}
     {% endfor %}
   </head>
   <body>
