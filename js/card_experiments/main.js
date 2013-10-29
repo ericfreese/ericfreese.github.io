@@ -90,6 +90,8 @@ function() {
     });
   });
 
+  deck.shuffle();
+
   // Deal
   for (var row = 0; row < 7; row++) {
     var card;

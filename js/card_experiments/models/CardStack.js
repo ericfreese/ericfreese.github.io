@@ -88,6 +88,10 @@ function($, _, Backbone) {
     eachCard: function(callback) {
       var cards = this.getAllCards().reverse();
       _.each(cards, callback);
+    },
+
+    shuffle: function() {
+      this.cardList.reset(this.cardList.shuffle());
     }
   });
 });
