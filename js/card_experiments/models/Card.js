@@ -13,7 +13,8 @@ function($, _, Backbone) {
     defaults: {
       'suit': 'spades',
       'rank': 'ace',
-      'flipped': true
+      'flipped': true,
+      'selected': false
     },
 
     initialize: function() {
@@ -24,7 +25,7 @@ function($, _, Backbone) {
 
     validate: function(attributes, options) {
       var validSuits = 'hearts diamonds spades clubs'.split(' '),
-          validRanks = 'ace 2 3 4 5 6 7 8 9 10 jack queen king'.split(' ');
+          validRanks = '1 2 3 4 5 6 7 8 9 10 11 12 13'.split(' ');
       
       if (validSuits.indexOf(attributes.suit) === -1) {
         return 'invalid suit';
@@ -32,6 +33,17 @@ function($, _, Backbone) {
       
       if (validRanks.indexOf(attributes.rank) === -1) {
         return 'invalid rank';
+      }
+    },
+
+    getColor: function() {
+      switch (this.get('suit')) {
+        case 'hearts':
+        case 'diamonds':
+          return 'red';
+        case 'spades':
+        case 'clubs':
+          return 'black';
       }
     },
 
@@ -47,6 +59,10 @@ function($, _, Backbone) {
     flip: function() {
       this.set('flipped', !this.get('flipped'));
       return this;
-    }
+    },
+
+    isTopCard: function() {
+      return this === this.cardStack.getTopCard();
+    },
   });
 });

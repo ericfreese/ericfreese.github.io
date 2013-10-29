@@ -10,7 +10,7 @@ function($, _, Backbone) {
     className: 'card',
 
     initialize: function() {
-      this.listenTo(this.model, 'change:flipped', this.render);
+      this.listenTo(this.model, 'change', this.render);
 
       // Fires when the card is moved to another card stack
       this.listenTo(this.model, 'move', function(model, cardStackTo, cardStackFrom) {
@@ -36,6 +36,13 @@ function($, _, Backbone) {
         this.$el.addClass('flipped');
       } else {
         this.$el.removeClass('flipped');
+      }
+
+      // Toggle class to show card selected
+      if (this.model.get('selected')) {
+        this.$el.addClass('selected');
+      } else {
+        this.$el.removeClass('selected');
       }
 
       // Update offset within card stack

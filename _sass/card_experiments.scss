@@ -65,15 +65,19 @@ html, body {
     }
   }
 
-  &[data-rank="king"]:before {
+  &.selected {
+    background: #ffd;
+  }
+
+  &[data-rank="13"]:before {
     content: 'k';
   }
 
-  &[data-rank="queen"]:before {
+  &[data-rank="12"]:before {
     content: 'q';
   }
 
-  &[data-rank="jack"]:before {
+  &[data-rank="11"]:before {
     content: 'j';
   }
 
@@ -113,7 +117,7 @@ html, body {
     content: '2';
   }
 
-  &[data-rank="ace"]:before {
+  &[data-rank="1"]:before {
     content: 'a';
   }
 

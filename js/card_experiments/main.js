@@ -84,7 +84,7 @@ function() {
   _.times(13, function(rank) {
     _.times(4, function(suit) {
       deck.addCard(new Card({
-        rank: [ 'ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king' ][rank],
+        rank: rank + 1,
         suit: [ 'hearts', 'diamonds', 'spades', 'clubs' ][suit]
       }));
     });
@@ -102,6 +102,8 @@ function() {
     }
   }
 
+  var selectedCard = null;
+
   // Set up game event listeners
   cardGame.on('click.cardstack', function(cardStack) {
     console.log('click.cardstack', cardStack);
@@ -116,9 +118,44 @@ function() {
         });
       }
     }
+
+    // Flip over tableau cards
+    if (cardStack.id.match(/tableau-/)) {
+      if (selectedCard !== null && selectedCard.get('rank') === 13 && cardStack.getCardCount() === 0) {
+        selectedCard.moveToCardStack(cardStack);
+      } else if (cardStack.getTopCard().get('flipped')) {
+        cardStack.getTopCard().flip();
+      }
+    }
+
+    // Move cards to foundation
+    if (cardStack.id.match(/foundation-/)) {
+      if ((cardStack.getCardCount() > 0 && cardStack.getTopCard().get('rank') === selectedCard.get('rank') - 1) || (selectedCard.get('rank') === 1)) {
+        selectedCard.moveToCardStack(cardStack);
+      }
+    }
   });
 
   cardGame.on('click.card', function(card) {
     console.log('click.card', card);
+
+    // Select and move cards
+    if (!card.get('flipped')) {
+      if (selectedCard !== null) {
+        if (card === selectedCard) {
+          selectedCard = null;
+          card.set('selected', false);
+        } else if (card.cardStack.id.match(/tableau-/) &&
+                   card.isTopCard() &&
+                   selectedCard.get('rank') === card.get('rank') - 1 &&
+                   selectedCard.getColor() !== card.getColor()) {
+
+          selectedCard.moveToCardStack(card.cardStack);
+        }
+      } else {
+        selectedCard = card;
+        card.set('selected', true);
+      }
+    }
   });
 });

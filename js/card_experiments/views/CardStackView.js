@@ -21,7 +21,7 @@ function($, _, Backbone) {
       this.listenTo(this.model.cardList, 'reset', function(list, options) {
         this.$el.empty();
         this.model.cardList.each(function(card) {
-          this.$el.append(card.view.render().$el);
+          this.$el.append(card.view.render().delegateEvents().$el);
         }, this);
       });
     },
