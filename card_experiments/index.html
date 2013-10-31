@@ -10,7 +10,24 @@ js:
 <p>Building a card game engine with Backbone.js.</p>
 <p>Work in progress. Source on <a href="https://github.com/ericfreese/ericfreese.github.io">GitHub</a>.</p>
 
-<div id="card-game"></div>
+<div id="card-experiments">
+  <div class="options">
+    <form class="load-game">
+      <label>
+        Load a new game:
+        <input type="text" name="game" list="game_list" pattern="[a-z\-]+" value="klondike" title="Alphanumeric characters and dashes only please!">
+      </label>
+      <datalist id="game_list">
+        <option value="klondike">
+        <option value="spider">
+      </datalist>
+      <button type="submit">New Game</button>
+    </form>
+    <form class="full-screen">
+      <button type="submit">Full Screen</button>
+    </form>
+  </div>
+</div>
 
 <h3>Next Steps</h3>
 <ul>

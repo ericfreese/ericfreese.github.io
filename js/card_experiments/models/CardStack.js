@@ -85,9 +85,9 @@ function($, _, Backbone) {
       return this.cardList.length;
     },
 
-    eachCard: function(callback) {
+    eachCard: function(callback, context) {
       var cards = this.getAllCards().reverse();
-      _.each(cards, callback);
+      _.each(cards, callback, context);
     },
 
     shuffle: function() {

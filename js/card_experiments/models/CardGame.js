@@ -22,6 +22,16 @@ function($, _, Backbone) {
       this.view = new CardGameView({ model: this });
     },
 
+    loadGame: function(game) {
+      var _this = this;
+      
+      this.initialize();
+
+      require(['games/' + game], function(game) {
+        game.initialize(_this);
+      });
+    },
+
     addCardStack: function(cardStack) {
       cardStack.cardGame = this;
       this.cardStackList.add(cardStack);
