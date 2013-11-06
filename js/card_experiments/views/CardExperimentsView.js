@@ -13,7 +13,7 @@ function($, _, Backbone) {
     el: $('#card-experiments'),
 
     initialize: function() {
-      this.loadGame('klondike');
+      this.loadGame(this.$('input[name="game"]').val());
     },
 
     events: {

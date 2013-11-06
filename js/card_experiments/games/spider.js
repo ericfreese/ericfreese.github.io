@@ -29,9 +29,8 @@ function() {
     // Create Deck
     this.deck = new CardStack({
       id: 'deck',
-      positionX: 0,
+      positionX: 90,
       positionY: 0,
-      anchorX: 'right',
       anchorY: 'bottom'
     });
     this.cardGame.addCardStack(this.deck);
@@ -44,18 +43,19 @@ function() {
     // });
     // this.cardGame.addCardStack(this.discard);
 
-    // // Create Foundation stacks
-    // var foundationStacks = [];
-    // _.times(4, function(index) {
-    //   var foundationStack = new CardStack({
-    //     id: 'foundation-' + index,
-    //     positionX: 40 + 10 * index,
-    //     positionY: 10
-    //   });
+    // Create Foundation stacks
+    var foundationStacks = [];
+    _.times(8, function(index) {
+      var foundationStack = new CardStack({
+        id: 'foundation-' + index,
+        positionX: 10 * index,
+        positionY: 0,
+        anchorY: 'bottom'
+      });
 
-    //   foundationStacks.push(foundationStack);
-    //   this.cardGame.addCardStack(foundationStack);
-    // }, this);
+      foundationStacks.push(foundationStack);
+      this.cardGame.addCardStack(foundationStack);
+    }, this);
 
     // Create Tableau stacks
     this.tableauStacks = [];
@@ -65,7 +65,7 @@ function() {
         positionX: 10 * i,
         positionY: 10,
         cardOffsetX: 0,
-        cardOffsetY: 30
+        cardOffsetY: 25
       });
 
       this.tableauStacks.push(tableauStack);
@@ -80,59 +80,133 @@ function() {
         for (var suit = 0; suit < 4; suit++) {
           this.deck.addCard(new Card({
             rank: rank,
-            suit: [ 'hearts', 'hearts', 'hearts', 'hearts' ][suit]
+            suit: [ 'hearts', 'hearts', 'spades', 'spades' ][suit]
           }));
         }
       }
     }
   };
 
+  Spider.prototype.selectCard = function(card) {
+    this.deselectCard();
+
+    this.selectedCard = card;
+    this.selectedCard.set('selected', true);
+  };
+
+  Spider.prototype.deselectCard = function(card) {
+    if (this.selectedCard) {
+      this.selectedCard.set('selected', false);
+      this.selectedCard = null;
+    }
+  };
+
+  // Check if selected card and cards above it form a valid run to be moved together
+  Spider.prototype.isSelectedCardValidMove = function() {
+    var currentCard, rank, suit;
+
+    if (this.selectedCard) {
+      currentCard = this.selectedCard;
+      rank = this.selectedCard.get('rank');
+      suit = this.selectedCard.get('suit');
+
+      while ((currentCard = currentCard.getNextCardInStack()) !== undefined) {
+        if (currentCard.get('suit') !== suit || currentCard.get('rank') !== --rank) return false;
+      }
+
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // Check if selected card and cards above it form a run from King to Ace of the same suit with no cards on top of them
+  Spider.prototype.isSelectedCardValidMoveToFoundation = function() {
+    var currentCard, rank, suit;
+
+    if (this.selectedCard) {
+      currentCard = this.selectedCard;
+      rank = this.selectedCard.get('rank');
+      suit = this.selectedCard.get('suit');
+
+      if (rank !== 13) return false;
+
+      while ((currentCard = currentCard.getNextCardInStack()) !== undefined) {
+        if (currentCard.get('suit') == suit && currentCard.get('rank') === --rank) {
+          if (currentCard.get('rank') === 1 && currentCard.isTopCard()) return true;
+        } else {
+          return false;
+        }
+      }
+
+    }
+
+    return false;
+  };
+
+  // Don't allow dealing cards from deck if any tableau stacks are empty
+  Spider.prototype.canDeal = function() {
+    for (var i = 0; i < this.tableauStacks.length; i++) {
+      if (this.tableauStacks[i].getCardCount() === 0) return false;
+    }
+
+    return true;
+  };
+
   // Set up game event listeners
   Spider.prototype.initializeEventListeners = function() {
-    this.cardGame.on('click.cardstack', function(cardStack) {
+    this.cardGame.on('click.cardstack', function(e, cardStack) {
       // Deck handler
-      if (cardStack.id === 'deck') {
-        if (cardStack.getCardCount() > 0) {
-          for (var i = 0; i < 10; i++) {
-            cardStack.getTopCard().moveToCardStack(this.tableauStacks[i]).flip();
-          }
+      if (cardStack.id === 'deck' &&
+          cardStack.getCardCount() > 0 &&
+          this.canDeal()) {
+
+        for (var i = 0; i < 10; i++) {
+          cardStack.getTopCard().moveToCardStack(this.tableauStacks[i]).flip();
         }
       }
 
       // Flip over tableau cards
       if (cardStack.id.match(/tableau-/)) {
-        if (this.selectedCard !== null && this.selectedCard.get('rank') === 13 && cardStack.getCardCount() === 0) {
-          this.selectedCard.moveToCardStack(cardStack);
-        } else if (cardStack.getTopCard().get('flipped')) {
+        if (this.selectedCard !== null &&
+            cardStack.getCardCount() === 0 &&
+            this.isSelectedCardValidMove()) {
+          this.selectedCard.moveCardAndCardsAboveToCardStack(cardStack);
+          this.deselectCard();
+        } else if (cardStack.getCardCount() > 0 && cardStack.getTopCard().get('flipped')) {
           cardStack.getTopCard().flip();
         }
       }
 
-    //   // Move cards to foundation
-    //   if (cardStack.id.match(/foundation-/)) {
-    //     if ((cardStack.getCardCount() > 0 && cardStack.getTopCard().get('rank') === this.selectedCard.get('rank') - 1) || (this.selectedCard.get('rank') === 1)) {
-    //       this.selectedCard.moveToCardStack(cardStack);
-    //     }
-    //   }
+      // Move cards to foundation
+      if (cardStack.id.match(/foundation-/) &&
+          this.selectedCard !== null &&
+          cardStack.getCardCount() === 0 &&
+          this.isSelectedCardValidMoveToFoundation()) {
+
+        this.selectedCard.moveCardAndCardsAboveToCardStack(cardStack);
+        this.deselectCard();
+      }
     }, this);
 
-    this.cardGame.on('click.card', function(card) {
+    this.cardGame.on('click.card', function(e, card) {
       // Select and move cards
-      if (!card.get('flipped')) {
+      if (!card.get('flipped') && card.cardStack.id.match(/tableau-/)) {
         if (this.selectedCard !== null) {
           if (card === this.selectedCard) {
-            this.selectedCard = null;
-            card.set('selected', false);
-          } else if (card.cardStack.id.match(/tableau-/) &&
-                     card.isTopCard() &&
+            this.deselectCard();
+            e.stopImmediatePropagation();
+          } else if (card.isTopCard() &&
                      this.selectedCard.get('rank') === card.get('rank') - 1 &&
-                     this.selectedCard.get('suit') === card.get('suit')) {
+                     this.isSelectedCardValidMove()) {
 
-            this.selectedCard.moveToCardStack(card.cardStack);
+            this.selectedCard.moveCardAndCardsAboveToCardStack(card.cardStack);
+            this.deselectCard();
+            e.stopImmediatePropagation();
           }
         } else {
-          this.selectedCard = card;
-          card.set('selected', true);
+          this.selectCard(card);
+          e.stopImmediatePropagation();
         }
       }
     }, this);

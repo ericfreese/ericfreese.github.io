@@ -19,8 +19,8 @@ function($, _, Backbone) {
     },
 
     events: {
-      'click': function() {
-        this.model.cardStack.cardGame.trigger('click.card', this.model);
+      'click': function(event) {
+        this.model.cardStack.cardGame.trigger('click.card', event, this.model);
       }
     },
 

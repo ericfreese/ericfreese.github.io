@@ -55,6 +55,16 @@ function($, _, Backbone) {
 
       return this;
     },
+
+    moveCardAndCardsAboveToCardStack: function(cardStack) {
+      var cardStackFrom = this.cardStack,
+          selectedIndex = cardStackFrom.indexOfCard(this),
+          cardToMove;
+
+      while ((cardToMove = cardStackFrom.getCardAt(selectedIndex)) !== undefined) {
+        cardToMove.moveToCardStack(cardStack);
+      }
+    },
     
     flip: function() {
       this.set('flipped', !this.get('flipped'));
@@ -64,5 +74,9 @@ function($, _, Backbone) {
     isTopCard: function() {
       return this === this.cardStack.getTopCard();
     },
+
+    getNextCardInStack: function() {
+      return this.cardStack.getCardAt(this.cardStack.indexOfCard(this) + 1);
+    }
   });
 });

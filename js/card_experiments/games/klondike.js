@@ -83,9 +83,23 @@ function() {
     }
   };
 
+  Klondike.prototype.selectCard = function(card) {
+    this.deselectCard();
+
+    this.selectedCard = card;
+    this.selectedCard.set('selected', true);
+  };
+
+  Klondike.prototype.deselectCard = function(card) {
+    if (this.selectedCard) {
+      this.selectedCard.set('selected', false);
+      this.selectedCard = null;
+    }
+  };
+
   // Set up game event listeners
   Klondike.prototype.initializeEventListeners = function() {
-    this.cardGame.on('click.cardstack', function(cardStack) {
+    this.cardGame.on('click.cardstack', function(e, cardStack) {
       // Deck handler
       if (cardStack.id === 'deck') {
         if (cardStack.getCardCount() > 0) {
@@ -97,41 +111,51 @@ function() {
         }
       }
 
-      // Flip over tableau cards
+      // Move kings to empty stacks, flip top cards
       if (cardStack.id.match(/tableau-/)) {
         if (this.selectedCard !== null && this.selectedCard.get('rank') === 13 && cardStack.getCardCount() === 0) {
-          this.selectedCard.moveToCardStack(cardStack);
-        } else if (cardStack.getTopCard().get('flipped')) {
+          this.selectedCard.moveCardAndCardsAboveToCardStack(cardStack);
+          this.deselectCard();
+        } else if (cardStack.getCardCount() > 0 && cardStack.getTopCard().get('flipped')) {
           cardStack.getTopCard().flip();
         }
       }
 
       // Move cards to foundation
-      if (cardStack.id.match(/foundation-/)) {
-        if ((cardStack.getCardCount() > 0 && cardStack.getTopCard().get('rank') === this.selectedCard.get('rank') - 1) || (this.selectedCard.get('rank') === 1)) {
+      if (this.selectedCard && this.selectedCard.isTopCard() && cardStack.id.match(/foundation-/)) {
+        if (cardStack.getCardCount() > 0 &&
+            cardStack.getTopCard().get('suit') === this.selectedCard.get('suit') &&
+            cardStack.getTopCard().get('rank') === this.selectedCard.get('rank') - 1 ||
+            this.selectedCard.get('rank') === 1) {
           this.selectedCard.moveToCardStack(cardStack);
+          this.deselectCard();
         }
       }
     }, this);
 
-    this.cardGame.on('click.card', function(card) {
+    this.cardGame.on('click.card', function(e, card) {
+      var cardStackFrom, cardToMove, selectedIndex;
+
       // Select and move cards
-      if (!card.get('flipped')) {
+      if (!card.get('flipped') && (card.cardStack !== this.discard || card.isTopCard())) {
         if (this.selectedCard !== null) {
           if (card === this.selectedCard) {
-            this.selectedCard = null;
-            card.set('selected', false);
+            this.deselectCard();
+            e.stopImmediatePropagation();
           } else if (card.cardStack.id.match(/tableau-/) &&
                      card.isTopCard() &&
                      this.selectedCard.get('rank') === card.get('rank') - 1 &&
                      this.selectedCard.getColor() !== card.getColor()) {
 
-            this.selectedCard.moveToCardStack(card.cardStack);
+            this.selectedCard.moveCardAndCardsAboveToCardStack(card.cardStack);
+            this.deselectCard();
+            e.stopImmediatePropagation();
           }
         } else {
-          this.selectedCard = card;
-          card.set('selected', true);
+          this.selectCard(card);
+          e.stopImmediatePropagation();
         }
+
       }
     }, this);
   };
