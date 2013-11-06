@@ -13,8 +13,6 @@ Bachelor of Science, CU Boulder, May 2010
 - Technology, Arts & Media
 - CU Business Intensive Certificate
 
----
-
 ### Skills & Abilities
 
 #### Concepts
@@ -27,26 +25,23 @@ Bachelor of Science, CU Boulder, May 2010
 - Test-Driven Development
 
 #### Languages
-- Ruby, PHP, Java
-- HTML, CSS, Sass
-- Javascript
+- Ruby, Javascript, PHP, Java
+- HTML, HAML, CSS, Sass, Less
 - XML, JSON, YAML
 - SQL
 
 #### Tools
-- Eclipse, Sublime Text 2
+- Sublime Text 2, Eclipse
 - Adobe CS (Photoshop, Flash, etc.)
 - Git, Subversion, CVS
-- Mac, Windows, Linux
-- Vagrant, Chef Solo
+- Mac, Linux, Windows
+- Vagrant, Chef
 
 #### Frameworks
-- Rails, CakePHP, Spring MVC
+- Rails, CakePHP, Spring MVC, Node.js
+- jQuery, Backbone, Express
 - Twitter Bootstrap, Foundation
-- jQuery
 - Compass
-
----
 
 ### Experience
 

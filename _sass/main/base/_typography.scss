@@ -1,19 +1,30 @@
-@import url(//fonts.googleapis.com/css?family=Vollkorn);
-@import url(//fonts.googleapis.com/css?family=Lusitana);
+@font-face {
+  font-family: 'Vollkorn';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Vollkorn Regular'), local('Vollkorn-Regular'), url(http://themes.googleusercontent.com/static/fonts/vollkorn/v4/BCFBp4rt5gxxFrX6F12DKnYhjbSpvc47ee6xR_80Hnw.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Lusitana';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lusitana'), url(http://themes.googleusercontent.com/static/fonts/lusitana/v2/tAIvAkRzqMJf8Y4fM1R7PXYhjbSpvc47ee6xR_80Hnw.woff) format('woff');
+}
 
 $body-text-color: $base-text-color !default;
 
 $header-font-family: "Vollkorn", $base-font-stack !default;
 $header-line-height: 1.4 !default;
-$header-top-margin: .2em !default;
-$header-bottom-margin: .5em !default;
-$header-text-color: $base-text-color !default;
+$header-top-margin: 1em !default;
+$header-bottom-margin: 0.2em !default;
 
 $paragraph-font-size: 1em !default;
-$paragraph-line-height: 1.8 !default;
+$paragraph-line-height: 1.4 !default;
+$paragraph-margin-top: emCalc(8px) !default;
 $paragraph-margin-bottom: emCalc(20px) !default;
 
-$link-text-color: #6ca332 !default;
+$link-text-color: $body-text-color !default;
 
 html, body {
   font-size: $base-font-size;
@@ -26,11 +37,6 @@ html, body {
   margin-top: $header-top-margin;
   margin-bottom: $header-bottom-margin;
   line-height: $header-line-height;
-  color: $header-text-color;
-
-  a {
-    color: $header-text-color;
-  }
 }
 
 h1 { font-size: emCalc(44px); }
@@ -44,20 +50,32 @@ a {
   color: $link-text-color;
   font-weight: bold;
   text-decoration: none;
+  border-bottom: 1px solid lighten($link-text-color, 60%);
+  @include transition(border-bottom 0.2s);
 
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    border-bottom-color: $link-text-color;
   }
+}
+
+p, ul, ol, figure, figcaption {
+  margin-top: $paragraph-margin-top;
+  margin-bottom: $paragraph-margin-bottom;
 }
 
 p {
   font-size: $paragraph-font-size;
   line-height: $paragraph-line-height;
-  margin-bottom: $paragraph-margin-bottom;
 }
 
 ul, ol {
   line-height: $paragraph-line-height;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
 }
 
 .lead {

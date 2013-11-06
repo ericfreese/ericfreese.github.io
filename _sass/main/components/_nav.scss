@@ -1,35 +1,59 @@
 nav {
+  background: $base-text-color;
+  color: #fff;
 
-  .boa-constrictor {
-    padding: 0 5em;
-  }
+  padding-top: 6px;
+  border-bottom: 6px solid #000;
+  margin-bottom: 2em;
+
+  min-width: 14em;
 
   h1 {
-    line-height: 6rem;
+    line-height: 60px;
     margin: 0;
+    font-size: 1.4em;
+
+    @media(min-width: 550px) {
+      float: left;
+    }
 
     a {
       color: inherit;
+      border-bottom: none;
     }
   }
 
   .navigation {
+    display: block;
+    overflow: hidden; // Clearfix
     list-style-type: none;
-    float: right;
     margin: 0;
     padding: 0;
 
+    @media(min-width: 550px) {
+      float: right;
+    }
+
     li {
       float: left;
-      line-height: 6rem;
+      line-height: 60px;
+      font-size: 1em;
 
       a {
         color: inherit;
+        border: none;
       }
 
       & + li {
         margin-left: 1em;
       }
     }
+  }
+
+  // Clearfix
+  &:after {
+    content: '';
+    display: table;
+    width: 100%;
   }
 }

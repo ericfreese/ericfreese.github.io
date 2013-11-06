@@ -35,14 +35,6 @@ function() {
     });
     this.cardGame.addCardStack(this.deck);
 
-    // // Create Discard pile
-    // this.discard = new CardStack({
-    //   id: 'discard',
-    //   positionX: 20,
-    //   positionY: 10
-    // });
-    // this.cardGame.addCardStack(this.discard);
-
     // Create Foundation stacks
     var foundationStacks = [];
     _.times(8, function(index) {

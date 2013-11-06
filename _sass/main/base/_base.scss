@@ -4,12 +4,24 @@
   @include box-sizing(border-box);
 }
 
-body {
-  background: #edeae3;
-  background-image: url("/img/square_bg.png");
-  @include background-image-retina(
-    $image: "/img/square_bg@2X.png",
-    $width: 252px,
-    $height: 230px
-  );
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+pre {
+  border-left: 2px solid #eee;
+  padding-left: 8px;
+  white-space: pre;
+  overflow: scroll;
+}
+
+code {
+  font-size: 75%;
+  color: #666;
+}
+
+header {
+  @include pie-clearfix;
 }
