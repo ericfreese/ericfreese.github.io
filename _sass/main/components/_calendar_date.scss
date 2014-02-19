@@ -1,6 +1,4 @@
-$calendar-date-color1: #000;
-$calendar-date-color2: lighten($calendar-date-color1, 50%);
-$calendar-date-color3: lighten($calendar-date-color1, 30%);
+$calendar-date-color: $base-text-color;
 
 .calendar-date {
   position: relative;
@@ -16,8 +14,6 @@ $calendar-date-color3: lighten($calendar-date-color1, 30%);
   vertical-align: middle;
   text-align: center;
   text-transform: uppercase;
-  margin-right: 2em;
-
   cursor: help;
 
   &:after {
@@ -33,6 +29,10 @@ $calendar-date-color3: lighten($calendar-date-color1, 30%);
     @include border-radius(4px);
     @include box-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
   }
+
+  + h2 {
+    margin-left: 2em;
+  }
 }
 
 .calendar-date_month {
@@ -42,9 +42,11 @@ $calendar-date-color3: lighten($calendar-date-color1, 30%);
 
   @include border-top-radius(3px);
 
-  background: $calendar-date-color1;
-  @include background-image(linear-gradient(top, $calendar-date-color2, $calendar-date-color1 75%, $calendar-date-color3));
-  @include box-shadow(inset 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px rgba(0, 0, 0, 0.1), inset 0 2px rgba(255, 255, 255, 0.25), 0 1px 3px rgba(0, 0, 0, 0.4));
+  background: $calendar-date-color;
+  @include box-shadow(inset 0 0 0 1px rgba(0, 0, 0, 0.2),
+                      inset 0 1px rgba(0, 0, 0, 0.1),
+                      inset 0 2px rgba(255, 255, 255, 0.25),
+                      0 1px 3px rgba(0, 0, 0, 0.4));
 
   color: #fff;
   @include text-shadow(0 -1px rgba(0, 0, 0, 0.6));
@@ -64,7 +66,8 @@ $calendar-date-color3: lighten($calendar-date-color1, 30%);
   border-right: 1px solid #979797;
   border-bottom: 1px solid #bbb;
 
-  @include box-shadow(1px 0 rgba(0, 0, 0, 0.1), -1px 0 rgba(0, 0, 0, 0.1));
+  @include box-shadow(1px 0 rgba(0, 0, 0, 0.1),
+                      -1px 0 rgba(0, 0, 0, 0.1));
 
   margin-bottom: 1px;
 }

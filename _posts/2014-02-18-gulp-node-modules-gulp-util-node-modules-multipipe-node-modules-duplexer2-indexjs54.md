@@ -21,7 +21,5 @@ Trying out [gulp](https://github.com/gulpjs/gulp) for the first time tonight, I 
         at Module._compile (module.js:449:26)
         at Object.Module._extensions..js (module.js:467:10)
 
-For all those poor souls out there googling this:
-
-Upgrade node. I used `brew upgrade node`.
+For all those poor souls out there googling this, upgrade node. I used `brew upgrade node`.
 
