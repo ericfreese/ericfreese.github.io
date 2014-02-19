@@ -2,20 +2,22 @@
 layout: default
 ---
 
-<header id="about">
-  <h1>Hi, my name's Eric.</h1>
-  <p>I'm a software developer located in Boulder, CO.</p>
-  <p>I work with web technologies like Rails, HTML, CSS, and Javascript.</p>
-</header>
-<section id="posts">
-  <h2>Potentially interesting things</h2>
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        {{ post.date | date: "%b %d, %Y" }}
-        ~
-        <a href="{{ post.url }}">{{ post.title }}</a>
-      </li>
-    {% endfor %}
-  </ul>
-</section>
+<div class="homepage">
+  <header id="about">
+    <h1>Hi, my name's Eric.</h1>
+    <p>I'm a software developer located in Boulder, CO.</p>
+    <p>I work with web technologies like Rails, HTML, CSS, and Javascript.</p>
+  </header>
+  <section id="posts">
+    <h2>Potentially interesting things</h2>
+    <ul class="post-list">
+      {% for post in site.posts %}
+        <li>
+          {{ post.date | date: "%b %d, %Y" }}
+          ~
+          <a href="{{ post.url }}">{{ post.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
