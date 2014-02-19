@@ -17,3 +17,12 @@
 @media print {
   @import "main/print";
 }
+
+.homepage {
+  text-align: center;
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+  }
+}
