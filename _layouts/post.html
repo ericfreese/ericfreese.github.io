@@ -1,12 +1,12 @@
 ---
 layout: default
 ---
+
 <header>
-  <div class="calendar-date" title="{{ page.date | date_to_string }}">
-    <div class="calendar-date_month">{{ page.date | date: "%b" }}</div>
-    <div class="calendar-date_day">{{ page.date | date: "%d" }}</div>
-  </div>
   <h2>{{ page.title }}</h2>
+  <p class="post-date">{{ page.date | date: "%b %d, %Y" }}</p>
 </header>
 
-{{ content }}
+<article>
+  {{ content }}
+</article>

@@ -12,7 +12,9 @@ img {
 
 pre {
   border-left: 2px solid #eee;
-  padding-left: 8px;
+  padding-left: 0.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   white-space: pre;
   overflow: scroll;
 }
@@ -24,10 +26,10 @@ code {
 
 header {
   @include pie-clearfix;
-  padding: 5em 0 3em;
+  padding: 1em 0;
 
-  h2 {
-    margin-top: 0;
-    margin-bottom: 0;
+  @include transition(padding $breakpoint-transition-properties);
+  @media (min-width: 550px) {
+    padding: 5em 0 3em;
   }
 }

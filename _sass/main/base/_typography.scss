@@ -1,72 +1,52 @@
 @import "fonts/gilda_sans";
 @import "fonts/open_sans";
 
-$body-text-color: $base-text-color;
-$body-font-family: "Open Sans", $base-font-stack;
-
-// $header-font-family: "Vollkorn", $base-font-stack;
-$header-font-family: "Gilda Display", $base-font-stack;
-$header-line-height: 1.4;
-$header-top-margin: 1em;
-$header-bottom-margin: 0.2em;
-
-$paragraph-font-size: 1em;
-$paragraph-line-height: 1.6;
-$paragraph-margin-top: emCalc(8px);
-$paragraph-margin-bottom: emCalc(20px);
-
-$link-text-color: $body-text-color;
-
 html, body {
+  font-family: "Open Sans", $base-font-stack;
   font-size: $base-font-size;
-  font-family: $body-font-family;
-  color: $body-text-color;
+  line-height: $base-line-height;
+  color: $base-text-color;
 
-  @media (max-width: 549px) {
-    font-size: $base-font-size * 0.75
+  @include transition(font $breakpoint-transition-properties);
+
+  @media (min-width: 550px) {
+    font-size: $base-font-size * 1.25;
+  }
+
+  @media (min-width: 1000px) {
+    font-size: $base-font-size * 1.5625;
   }
 }
 
-
 #{headers()} {
-  font-family: $header-font-family;
-  margin-top: $header-top-margin;
-  margin-bottom: $header-bottom-margin;
-  line-height: $header-line-height;
+  font-family: "Gilda Display", $base-font-stack;
+  margin-top: 1em;
+  margin-bottom: 0.2em;
 }
 
-h1 { font-size: emCalc(44px); }
-h2 { font-size: emCalc(37px); }
-h3 { font-size: emCalc(27px); }
-h4 { font-size: emCalc(23px); }
-h5 { font-size: emCalc(18px); }
+h1 { font-size: 2.56em; }
+h2 { font-size: 1.6em; }
+h3 { font-size: 1.3em; }
+h4 { font-size: 1em; }
+h5 { font-size: 1em; }
 h6 { font-size: 1em; }
 
 a {
-  color: $link-text-color;
+  color: $base-text-color;
   font-weight: 600;
   text-decoration: none;
-  border-bottom: 1px solid lighten($link-text-color, 60%);
+  border-bottom: 1px solid lighten($base-text-color, 60%);
   @include transition(border-bottom 0.2s);
 
-  &:hover {
+  &:hover, &:focus {
     text-decoration: none;
-    border-bottom-color: $link-text-color;
+    border-bottom-color: $base-text-color;
   }
 }
 
 p, ul, ol, figure, figcaption {
-  margin-top: $paragraph-margin-top;
-  margin-bottom: $paragraph-margin-bottom;
-}
-
-p {
-  font-size: $paragraph-font-size;
-  line-height: $paragraph-line-height;
-}
-
-ul, ol {
-  line-height: $paragraph-line-height;
+  margin-top: 0.4em;
+  margin-bottom: 0;
 }
 
 figcaption {
